@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Travel Buddy Dashboard</title>
+    {% load staticfiles %}
+    <link href="{% static 'travel_buddy/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'travel_buddy/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'travel_buddy/css/starter-template.css' %}" rel="stylesheet">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="{% url 'travel_buddy:index' %}">Travel Buddy</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{% url 'travel_buddy:travels' %}">Travel Dashboard</a></li>
+                <li><a href="{% url 'travel_buddy:add' %}">Add Travel Plans</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{% url 'login_registration:logout' %}">Log Out <span class="sr-only">(current)</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="page-header">
+        <h2>Welcome, {{request.session.first_name}}!</h2>
+        <h4>My Travel Schedule</h4>
+        <a class="btn btn-default" href="{% url 'travel_buddy:add' %}" role="button">Add New Trip</a>
+      </div>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <td>Destination</td>
+            <td>Travel Start Date</td>
+            <td>Travel End Date</td>
+            <td>Plan</td>
+          </tr>
+        </thead>
+        {% if trips %}
+        <tbody>
+          {% for trip in trips %}
+            <tr>
+              <td><a href="{% url 'travel_buddy:destination' id=trip.id %}">{{trip.destination}}</a></td>
+              <td>{{trip.start_date}}</td>
+              <td>{{trip.end_date}}</td>
+              <td>{{trip.description}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+        {% endif %}
+      </table>
+      <div class="page-header">
+        <h4>Other Users' Travel Plans</h4>
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <td>Name</td>
+              <td>Destination</td>
+              <td>Travel Start Date</td>
+              <td>Travel End Date</td>
+              <td>Do You Want To Join?</td>
+            </tr>
+          </thead>
+          {% if other_trips %}
+          <tbody>
+            {% for other_trip in other_trips %}
+              <tr>
+                <td>{{other_trip.planner.first_name}} {{other_trip.planner.last_name}}</td>
+                <td><a href="{% url 'travel_buddy:destination' id=other_trip.id %}">{{other_trip.destination}}</a></td>
+                <td>{{other_trip.start_date}}</td>
+                <td>{{other_trip.end_date}}</td>
+                <td><a href="{% url 'travel_buddy:join' id=other_trip.id %}">Join</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+          {% endif %}
+        </table>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="{% static 'travel_buddy/js/bootstrap.min.js' %}"></script>
+  </body>
+</html>

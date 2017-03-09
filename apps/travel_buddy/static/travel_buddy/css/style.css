@@ -1,0 +1,8 @@
+.carousel_text {
+  color: rgb(226, 230, 236);
+}
+
+.register, .login {
+  width: 50%;
+  margin: 0 auto;
+}

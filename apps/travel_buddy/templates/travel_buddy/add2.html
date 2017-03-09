@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add Travel Plan</title>
+    {% load staticfiles %}
+    <link href="{% static 'travel_buddy/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'travel_buddy/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'travel_buddy/css/starter-template.css' %}" rel="stylesheet">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="{% url 'travel_buddy:index' %}">Travel Buddy</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{% url 'travel_buddy:travels' %}">Travel Dashboard</a></li>
+                <li><a href="{% url 'travel_buddy:add' %}">Add Travel Plans</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{% url 'login_registration:logout' %}">Log Out <span class="sr-only">(current)</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="page-header">
+        <h4>Add a Trip</h4>
+        <form action="{% url 'travel_buddy:create' %}" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label>Destination</label>
+            <input type="text" class="form-control" name="destination">
+          </div>
+          <div class="form-group">
+            <label>Description:</label>
+            <input type="text" class="form-control" name="description">
+          </div>
+          <div class="form-group">
+            <label>Travel Start Date (MM/DD/YYYY):</label>
+            <input type="text" class="form-control" name="start_date">
+          </div>
+          <div class="form-group">
+            <label>Travel End Date (MM/DD/YYYY):</label>
+            <input type="text" class="form-control" name="end_date">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+      </div>
+      <div class="errors">
+        {% if messages %}
+          {% for message in messages %}
+            <p>{{message}}</p>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="{% static 'travel_buddy/js/bootstrap.min.js' %}"></script>
+  </body>
+</html>
